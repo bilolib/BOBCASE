@@ -1,0 +1,136 @@
+#main manu
+menu_main_title: "&lBOBCASE"
+menu_create_case: "&aCreate Case"
+menu_case: "&bCrates"
+menu_options: "&6Options"
+
+
+#create case
+enter_crate_name: "&eType the crate name, type &ccancel &eto cancel."
+crate_creation_timeout: "&cCrate creation timed out and was cancelled."
+crate_creation_cancelled: "&cCrate creation process was cancelled."
+crate_name_no_leading_space: "&cCrate name cannot start with a space!"
+crate_name_cannot_be_empty: "&cCrate name cannot be empty!"
+crate_name_already_exists: "&cA crate with this name already exists!"
+crate_name_created: "&aCrate name created: {name}&r"
+
+
+#Case settings menu
+crate_settings_title: "&lCrate Settings"
+invalid_crate_name: "&cThat crate name is not valid!"
+crate_add_item: "&6Add Item"
+crate_drop_setting: "&eDrop Settings"
+crate_delete: "&cDelete Crate"
+crate_open_styles: "&dCrate Opening Styles"
+crate_change_appearance: "&bChange Crate Appearance"
+permission_setting_title: "&6Permission Settings"
+change_crate_appearance: "&bChange Crate Appearance"
+
+
+#case deleted
+crate_deleted: "&cCrate '{name}' has been deleted!"
+crate_not_found: "&cCrate to delete not found!"
+
+
+#perm settings
+permission_given: "&7Given permission:"
+no_permission_assigned: "&7No permission assigned"
+permission_removed: "&cPermission removed for the crate."
+crate_not_found_save_failed: "&cCrate not found, items could not be saved."
+items_saved_successfully: "&aItems saved successfully! ({count} items)"
+enter_permission_message: "&ePlease enter the permission node for this case (e.g., bobcase.vip). &cType 'cancel' to cancel."
+permission_setup_cancelled: "&cPermission setup has been cancelled."
+case_permission_set: "&aCase permission has been successfully set to '&e{permission}&a'!"
+case_not_found: "&cCase not found, operation cancelled."
+
+
+
+
+#drop menu & add item menu
+drop_menu_title: "&lDrop Setting"
+drop_chance_prompt: "&eEnter drop chance for &f{target} &e(between 1-100) or type 'cancel'."
+chance_cannot_set: "&cChance cannot be set for this item."
+drop_settings_saved: "&aDrop settings saved successfully."
+invalid_number: "&cInvalid number. Please enter a value between 1 and 100."
+drop_crate_not_found: "&cCrate not found."
+items_menu_title: "&lAdd Item"
+chance_input_instruction: "&eType a chance value between &f1 &eand &f100&e. &cType 'cancel' to cancel."
+must_save_before_chance: "&cYou must save first before setting the chance."
+drop_chance_set: "&aDrop chance for %target% has been set to %chance%%."
+
+
+#optians menu
+menu_options_title: "&lOptions"
+case_cooldown_time: "&cCase Cooldown Time"
+case_cooldown_time_lore: "&7Current time: &e{time} seconds"
+enter_new_delay_time: "&eType the new cooldown time in seconds (e.g., 5):"
+messages_crate_cooldown_set: "&aCooldown set to {time} seconds!"
+cooldown_invalid_number: "&cPlease enter a valid number (between 1 and 60)!"
+menu_color_settings: "&eMenu Color Settings"
+menu_color_settings_lore: "&7Click to set the background glass colors."
+color_settings_title: "&lMenu Color Settings"
+
+
+#Crates menu
+menu_crates_title: "&lCrates"
+case_take: "&aRight Click: &fGives Case"
+case_settings: "&bLeft Click: &fCase Settings"
+
+
+#case style
+select_this_style: "&7Select this style"
+selected: "&a&lSELECTED"
+
+
+#Anim menu
+style_select_title: "&lStyle Select"
+animation_type:
+  csgo: "Sliding Items Animation"
+  spin: "Spinning Green Glass Animation"
+  Scratch: "Scratch Card Style"
+
+
+#case appearance
+case_appearance_title: "&lCase Appearance"
+default_case_appearance: "&6Default Case Appearance"
+only_one_item_per_slot: "&cYou can only place 1 item in this slot!"
+
+
+#scratch Case
+scratch_case_title: "&lScratch Case"
+scratch_to_win: "&8Click to scratch!"
+
+#spin case
+spinning_glass_display: "&aSpinning..."
+
+
+##---
+case_contents_title: "&lCase Contents"
+case_empty: "&cThere are no items in this case."
+wait_to_open_case: "&ePlease wait &f{seconds} &eseconds to open the crate."
+opening_title: "&lOpening..."
+inventory_full: "&cYour inventory is full! Clear some space before opening the crate."
+info_title: "&cInfo"
+
+chance_info:
+  line1: "&c!&7To set chance,"
+  line2: "&7you must save first."
+
+chance_info_line1: "&c!&7To set chance, save first."
+save_back_button: "&c⏪ Save and Back"
+back_button: "&c⏪ Back"
+case_item_open_lore: "&7Right click to open!"
+no_permission: "You do not have permission to use this command."
+no_permission_open_case: "&cYou do not have permission to open this case: &e{permission}"
+plugin_reloaded: "&aPlugin has been reloaded"
+operation_cancelled: "&cOperation cancelled."
+cancel_keyword: "cancel"
+chance_prefix_raw: "Chance:"
+chance_line: "&eChance: &f%chance%%"
+chance_prefix: "&eChance: &6{value}%"
+
+chance_setting_cancelled: "&cChance setting process has been cancelled."
+case_or_item_not_found: "Case or item not found, action cancelled."
+chance_value_set: "&aChance value successfully set to: %value%%"
+
+

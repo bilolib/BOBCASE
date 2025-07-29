@@ -1,0 +1,14 @@
+name: bobcase
+version: '1.0-SNAPSHOT'
+main: me.bilolib.bobcase.Bobcase
+api-version: '1.21'
+commands:
+  bobcase:
+    description: Main command for Bobcase plugin
+    usage: /bobcase <reload>
+    permission: bobcase.admin
+    permission-message: You don't have permission to use this command.
+
+permissions:
+  bobcase.admin:
+    default: op
