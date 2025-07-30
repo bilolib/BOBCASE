@@ -25,7 +25,7 @@ object KasaOnizlemeMenu : Listener {
         val camlar = MenuRenkAyarMenu.getCamlar(player)
         val secilenCam = camlar.random()
 
-        val inv = Bukkit.createInventory(null, 27, onizleme)
+        val inv = Bukkit.createInventory(null, 54, onizleme)
 
         val cam = ItemStack(secilenCam).apply {
             itemMeta = itemMeta?.apply { setDisplayName(" ") }

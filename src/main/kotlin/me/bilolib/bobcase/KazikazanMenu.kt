@@ -43,17 +43,13 @@ object KazikazanMenu : Listener {
         val slotOdul = mutableMapOf<Int, ItemStack>()
         for (slot in 0 until 27) {
             val item = oduller.random().clone()
-            val meta = item.itemMeta
-            if (meta != null) {
-                meta.persistentDataContainer.set(
-                    NamespacedKey(Bobcase.instance, "kazikazan_odul"),
-                    PersistentDataType.STRING,
-                    item.type.name
-                )
-                item.itemMeta = meta
-            }
-            inv.setItem(slot, kapaliCam())
+            item.itemMeta?.persistentDataContainer?.set(
+                NamespacedKey(Bobcase.instance, "kazikazan_odul"),
+                PersistentDataType.STRING,
+                item.type.name
+            )
             slotOdul[slot] = item
+            inv.setItem(slot, kapaliCam())
         }
 
         aktifMenuler[player.uniqueId] = inv
@@ -76,19 +72,18 @@ object KazikazanMenu : Listener {
     @EventHandler
     fun onClick(e: InventoryClickEvent) {
         val p = e.whoClicked as? Player ?: return
+        val uuid = p.uniqueId
         val rawTitle = ChatColor.stripColor(e.view.title) ?: return
         val expectedTitle = ChatColor.stripColor(LangManager.msg("scratch_case_title")) ?: return
+        if (rawTitle != expectedTitle) return
 
-        if (!rawTitle.equals(expectedTitle, ignoreCase = true)) return
         e.isCancelled = true
 
-        val uuid = p.uniqueId
         if (kazandiMi[uuid] == true) return
+        if ((acimHakki[uuid] ?: 0) >= MAKS_HAK) return
 
         val slot = e.slot
-        if (slot !in 0..26) return
-        if (tiklananSlotlar[uuid]?.contains(slot) == true) return
-        if ((acimHakki[uuid] ?: 0) >= MAKS_HAK) return
+        if (slot !in 0..26 || tiklananSlotlar[uuid]?.contains(slot) == true) return
 
         val odul = odulMap[uuid]?.get(slot)?.clone() ?: return
 
@@ -107,12 +102,13 @@ object KazikazanMenu : Listener {
         if (kazananMaterial != null) {
             kazandiMi[uuid] = true
 
-            val kazandigiSlot = tiklananSlotlar[uuid]!!
-                .firstOrNull { odulMap[uuid]?.get(it)?.type == kazananMaterial }
+            val kazananSlot = tiklananSlotlar[uuid]?.firstOrNull {
+                odulMap[uuid]?.get(it)?.type == kazananMaterial
+            }
 
-            val kazandigiItem = kazandigiSlot?.let { odulMap[uuid]?.get(it)?.clone()?.temizSansLore() }
-            if (kazandigiItem == null) return
+            val kazandigiItem = kazananSlot?.let { odulMap[uuid]?.get(it)?.clone()?.temizSansLore() } ?: return
 
+            // Sesli kutlama
             val task = object : BukkitRunnable() {
                 override fun run() {
                     p.playSound(p.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1.5f)
@@ -121,8 +117,8 @@ object KazikazanMenu : Listener {
             task.runTaskTimer(Bobcase.instance, 0L, 5L)
             sesTasklari[uuid] = task
 
+            // Menüyü kapat (ödül verme işlemi onClose'ta)
             Bukkit.getScheduler().runTaskLater(Bobcase.instance, Runnable {
-                p.inventory.addItem(kazandigiItem)
                 p.closeInventory()
             }, 30L)
         } else if ((acimHakki[uuid] ?: 0) >= MAKS_HAK) {
@@ -139,7 +135,7 @@ object KazikazanMenu : Listener {
 
         val rawTitle = ChatColor.stripColor(e.view.title) ?: return
         val expectedTitle = ChatColor.stripColor(LangManager.msg("scratch_case_title")) ?: return
-        if (!rawTitle.equals(expectedTitle, ignoreCase = true)) return
+        if (rawTitle != expectedTitle) return
 
         val inv = aktifMenuler[uuid] ?: return
         if (e.inventory != inv) return
@@ -147,22 +143,27 @@ object KazikazanMenu : Listener {
         KasaAcmaListener.setSonAcilis(player, System.currentTimeMillis())
 
         if (kazandiMi[uuid] == true) {
+            val kazananMaterial = tiklananSlotlar[uuid]
+                ?.mapNotNull { odulMap[uuid]?.get(it)?.type }
+                ?.groupingBy { it }?.eachCount()
+                ?.entries?.firstOrNull { it.value >= KAZANMA_LIMIT }?.key
+
             val kazananSlot = tiklananSlotlar[uuid]?.firstOrNull {
-                val item = odulMap[uuid]?.get(it)
-                item != null && item.type == odulMap[uuid]?.get(it)?.type
+                odulMap[uuid]?.get(it)?.type == kazananMaterial
             }
 
             val kazananItem = kazananSlot?.let { odulMap[uuid]?.get(it)?.clone()?.temizSansLore() }
 
-            if (kazananItem != null) {
+            kazananItem?.let {
                 if (player.inventory.firstEmpty() != -1) {
-                    player.inventory.addItem(kazananItem)
+                    player.inventory.addItem(it)
                 } else {
-                    player.world.dropItemNaturally(player.location, kazananItem)
+                    player.world.dropItemNaturally(player.location, it)
                 }
             }
         }
 
+        // Eğer erken kapattıysa tekrar aç
         if (kazandiMi[uuid] == false && (acimHakki[uuid] ?: 0) < MAKS_HAK) {
             Bukkit.getScheduler().runTaskLater(Bobcase.instance, Runnable {
                 player.openInventory(inv)
@@ -170,6 +171,7 @@ object KazikazanMenu : Listener {
             return
         }
 
+        // Temizleme
         aktifMenuler.remove(uuid)
         odulMap.remove(uuid)
         tiklananSlotlar.remove(uuid)
